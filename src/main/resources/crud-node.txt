@@ -1,0 +1,10 @@
+CRUD
+1. Create Spring Project
+2. Create vue project: npm create vue@latest
+ - node v18.15.0
+ - npm v9.6.2
+ - vue v3.3.4
+ - pinia v2.1.4
+ - vue router v4.2.4
+ - vue axios v3.5.2 : npm i vue-axios
+ - spring v2.7.14
