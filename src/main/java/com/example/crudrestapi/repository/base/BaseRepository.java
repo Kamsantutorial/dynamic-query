@@ -15,15 +15,25 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
-    <R extends BaseRepository<T, ID>> Page<T> findAll(BaseCriteria<R> criteria, Pageable pageable);
+    <R extends BaseRepository<T, ID>> Page<T> findAllWithPageable(BaseCriteria<R> criteria, Pageable pageable);
 
-    <R extends BaseRepository<T, ID>> Optional<T> findWithCriteria(BaseCriteria<R> criteria);
+    <R extends BaseRepository<T, ID>> Page<T> findAllWithPage(BaseCriteria<R> criteria);
+
+    <R extends BaseRepository<T, ID>> Optional<T> findOneWithCriteria(BaseCriteria<R> criteria);
 
     <R extends BaseRepository<T, ID>> List<T> findAllWithCriteria(BaseCriteria<R> criteria);
 
+    <R extends BaseRepository<T, ID>> Long countWithCriteria(BaseCriteria<R> criteria);
+
+    <R extends BaseRepository<T, ID>> Long sumWithCriteria(BaseCriteria<R> criteria);
+
     <R extends BaseRepository<T, ID>> void deleteByCriteria(BaseCriteria<R> criteria);
 
-    void deleteById();
+    List<T> saveOrUpdateAll(Iterable<T> entities);
+
+    T saveOrUpdate(T entity);
+
+    void deleteById(ID id);
 
     EntityManager geEntityManager();
 
