@@ -9,9 +9,10 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import com.example.crudrestapi.entity.base.BaseEntity;
 import lombok.NonNull;
 
-public class BaseRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I extends Serializable>
+public class BaseRepositoryFactoryBean<R extends JpaRepository<T, I>, T extends BaseEntity<T>, I extends Serializable>
         extends JpaRepositoryFactoryBean<R, T, I> {
 
     public BaseRepositoryFactoryBean(Class<? extends R> repositoryInterface) {
@@ -24,7 +25,7 @@ public class BaseRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I exten
         return new BaseRepositoryFactory<>(em);
     }
 
-    private static class BaseRepositoryFactory<T, I extends Serializable>
+    private static class BaseRepositoryFactory<T extends BaseEntity<I>, I extends Serializable>
             extends JpaRepositoryFactory {
 
         private final EntityManager em;
@@ -38,7 +39,7 @@ public class BaseRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I exten
         @SuppressWarnings("unchecked")
         @NonNull
         protected JpaRepositoryImplementation<?, ?> getTargetRepository(RepositoryInformation information,
-                                                                        @NonNull EntityManager entityManager) {
+                @NonNull EntityManager entityManager) {
             return new BaseRepositoryImpl<>((Class<T>) information.getDomainType(), em);
         }
 
@@ -47,5 +48,6 @@ public class BaseRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I exten
         protected Class<?> getRepositoryBaseClass(@NonNull RepositoryMetadata metadata) {
             return BaseRepositoryImpl.class;
         }
+        
     }
 }
